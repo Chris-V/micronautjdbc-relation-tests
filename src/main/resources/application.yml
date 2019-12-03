@@ -1,0 +1,13 @@
+---
+micronaut:
+  application:
+    name: optionalrelation
+
+---
+datasources:
+  default:
+    username: ${application.datasources.default.username}
+    password: ${application.datasources.default.password}
+    url: ${application.datasources.default.url}
+    driverClassName: org.mariadb.jdbc.Driver
+    dialect: MYSQL

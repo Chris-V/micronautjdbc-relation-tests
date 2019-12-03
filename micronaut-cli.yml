@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: optionalrelation
+---
+testFramework: junit
+sourceLanguage: kotlin
