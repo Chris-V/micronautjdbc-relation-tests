@@ -10,6 +10,8 @@ CREATE TABLE `session_a` (
     `id`                 INTEGER NOT NULL
         PRIMARY KEY,
     `fk_account_id` INTEGER NOT NULL
+        REFERENCES `account`(`id`),
+    `fk_maybe_account` INTEGER NULL
         REFERENCES `account`(`id`)
 );
 
@@ -18,5 +20,7 @@ CREATE TABLE `session_b` (
     `id`                 INTEGER NOT NULL
         PRIMARY KEY,
     `account_id` INTEGER NOT NULL
+        REFERENCES `account`(`id`),
+    `maybe_account_id` INTEGER NULL
         REFERENCES `account`(`id`)
 );

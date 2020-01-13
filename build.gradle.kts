@@ -11,7 +11,7 @@ val junitVersion = "5.5.1"
 val kotlinVersion = "1.3.61"
 val logbackVersion = "1.2.3"
 val mariaDbVersion = "2.5.1"
-val micronautVersion = "1.2.6"
+val micronautVersion = "1.2.8"
 val testContainersVersion = "1.12.3"
 
 plugins {
@@ -48,7 +48,7 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:$mariaDbVersion")
 
     kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut.data:micronaut-data-processor:1.0.0.M5")
+    kapt("io.micronaut.data:micronaut-data-processor:1.0.0.BUILD-SNAPSHOT")
 
     runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
@@ -63,6 +63,7 @@ dependencies {
     testImplementation("org.testcontainers:mariadb:$testContainersVersion")
 
     kaptTest("io.micronaut:micronaut-inject-java")
+    kaptTest("io.micronaut.data:micronaut-data-processor:1.0.0.BUILD-SNAPSHOT")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }

@@ -5,6 +5,7 @@ import io.micronaut.data.annotation.Join
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.data.annotation.MappedProperty
 import io.micronaut.data.annotation.Relation
+import io.micronaut.data.annotation.repeatable.JoinSpecifications
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.query.builder.sql.Dialect
 import io.micronaut.data.repository.CrudRepository
@@ -29,7 +30,11 @@ class SessionA(
 
     @MappedProperty("fk_account_id")
     @Relation(value = Relation.Kind.MANY_TO_ONE)
-    val account: Account
+    val account: Account,
+
+    @MappedProperty("fk_maybe_account")
+    @Relation(value = Relation.Kind.MANY_TO_ONE)
+    val maybeAnotherAccount: Account?
 )
 
 @MappedEntity("session_b")
@@ -40,7 +45,11 @@ class SessionB(
 
     @MappedProperty("account_id")
     @Relation(value = Relation.Kind.MANY_TO_ONE)
-    val account: Account
+    val account: Account,
+
+    @MappedProperty("maybe_account_id")
+    @Relation(value = Relation.Kind.MANY_TO_ONE)
+    val maybeAnotherAccount: Account?
 )
 
 @MappedEntity("account")
@@ -54,12 +63,18 @@ class Account(
 
 @JdbcRepository(dialect = Dialect.MYSQL)
 abstract class SessionARepository : CrudRepository<SessionA, Int> {
-    @Join(value = "account", type = Join.Type.LEFT_FETCH)
+    @JoinSpecifications(
+        Join(value = "account", type = Join.Type.LEFT_FETCH),
+        Join(value = "maybeAnotherAccount", type = Join.Type.LEFT_FETCH)
+    )
     abstract override fun findById(id: Int): Optional<SessionA>
 }
 
 @JdbcRepository(dialect = Dialect.MYSQL)
 abstract class SessionBRepository : CrudRepository<SessionB, Int> {
-    @Join(value = "account", type = Join.Type.LEFT_FETCH)
+    @JoinSpecifications(
+        Join(value = "account", type = Join.Type.LEFT_FETCH),
+        Join(value = "maybeAnotherAccount", type = Join.Type.LEFT_FETCH)
+    )
     abstract override fun findById(id: Int): Optional<SessionB>
 }

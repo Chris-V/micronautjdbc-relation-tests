@@ -46,7 +46,7 @@ class ApplicationTest : TestPropertyProvider {
     }
 
     @Test
-    fun `findById() should fetch a Session with a prefixed relation column`() {
+    fun `Session A findById() should fetch a Session with a prefixed relation column`() {
         val session = sessionARepository.findById(3)
 
         assertThat(session).get()
@@ -54,13 +54,29 @@ class ApplicationTest : TestPropertyProvider {
             .isEqualTo(
                 SessionA(
                     3,
-                    Account(2, "Bar")
+                    Account(2, "Bar"),
+                    null
                 )
             )
     }
 
     @Test
-    fun `findById() should fetch a Session with a non-prefixed relation column`() {
+    fun `Session A findById() should fetch a Session with a nullable association`() {
+        val session = sessionARepository.findById(4)
+
+        assertThat(session).get()
+            .usingRecursiveComparison()
+            .isEqualTo(
+                SessionA(
+                    4,
+                    Account(2, "Bar"),
+                    Account(3, "Baz")
+                )
+            )
+    }
+
+    @Test
+    fun `Session B findById() should fetch a Session with a non-prefixed relation column`() {
         val session = sessionBRepository.findById(3)
 
         assertThat(session).get()
@@ -68,7 +84,23 @@ class ApplicationTest : TestPropertyProvider {
             .isEqualTo(
                 SessionB(
                     3,
-                    Account(2, "Bar")
+                    Account(2, "Bar"),
+                    null
+                )
+            )
+    }
+
+    @Test
+    fun `Session B findById() should fetch a Session with a nullable association`() {
+        val session = sessionBRepository.findById(4)
+
+        assertThat(session).get()
+            .usingRecursiveComparison()
+            .isEqualTo(
+                SessionB(
+                    4,
+                    Account(2, "Bar"),
+                    Account(3, "Baz")
                 )
             )
     }
